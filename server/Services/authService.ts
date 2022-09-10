@@ -1,11 +1,7 @@
 import express from 'express';
 import jsonwebtoken, { VerifyErrors } from 'jsonwebtoken';
-import env from '../env';
-
-export interface UserToken {
-    username: string;
-    email: string;
-}
+import env from '../Config/env';
+import UserToken from '../Models/UserToken';
 
 export function authenticateToken(
     req: express.Request,
