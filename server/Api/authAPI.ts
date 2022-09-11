@@ -4,6 +4,7 @@ import User from '../Models/User';
 import UserToken from '../Models/UserToken';
 import jsonwebtoken from 'jsonwebtoken';
 import db, { insertUser } from '../db';
+
 import {
     generateAccessToken,
     generateRefreshToken,
@@ -48,11 +49,16 @@ router.post('/auth/login', async (req, res) => {
                 const accessToken = generateAccessToken(userToken);
                 const refreshToken = generateRefreshToken(userToken);
                 refreshTokens.push(refreshToken);
-                res.json({
-                    accessToken: accessToken,
-                    refreshToken: refreshToken,
+                res.cookie('atok', accessToken, {
+                    httpOnly: true,
+                    path: '/',
                 });
-                res.send('Success');
+                res.cookie('rtok', refreshToken, {
+                    httpOnly: true,
+                    path: '/auth/token',
+                });
+                res.status(200);
+                res.send();
             } else {
                 res.send('Now allowed');
             }
@@ -63,7 +69,7 @@ router.post('/auth/login', async (req, res) => {
 });
 
 router.post('/auth/token', (req, res) => {
-    const refreshToken = req.body.token;
+    const refreshToken = req.cookies.rtok;
     if (refreshToken == null) {
         return res.sendStatus(401);
     }
@@ -81,7 +87,8 @@ router.post('/auth/token', (req, res) => {
                 username: user.username,
                 email: user.email,
             });
-            res.json({ accessToken: accessToken });
+            res.cookie('atok', accessToken);
+            res.sendStatus(200);
         }
     );
 });

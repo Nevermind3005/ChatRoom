@@ -8,8 +8,8 @@ export function authenticateToken(
     res: express.Response,
     next: Function
 ) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = req.cookies.atok;
+
     if (token == null) {
         return res.sendStatus(401);
     }

@@ -2,10 +2,12 @@ import express from 'express';
 import authAPI from './Api/authAPI';
 import { authenticateToken } from './Services/authService';
 import db, { addUsersToDB } from './db';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', authAPI);
 const port = 3000;
