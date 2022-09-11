@@ -1,1 +1,43 @@
-<p>sign-up works!</p>
+<mat-card class="card">
+  <div>
+    <mat-card-title>Sign up</mat-card-title>
+  </div>
+  <mat-form-field class="authInput" appearance="outline">
+    <mat-label>Username</mat-label>
+    <input matInput [formControl]="username" required />
+    <mat-error *ngIf="username.invalid">{{
+      getUsernameErrorMessage()
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field class="authInput" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="example@example.com"
+      [formControl]="email"
+      required
+    />
+    <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
+  </mat-form-field>
+  <mat-form-field class="authInput" appearance="outline">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      [type]="hide ? 'password' : 'text'"
+      required
+      [formControl]="password"
+    />
+    <mat-error *ngIf="password.invalid">{{
+      getPasswordErrorMessage()
+    }}</mat-error>
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hide = !hide"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide"
+    >
+      <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+  </mat-form-field>
+</mat-card>

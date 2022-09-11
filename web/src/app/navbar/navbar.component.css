@@ -1,4 +1,7 @@
 .nav {
     display: flex;
-    justify-content: flex-end;
+}
+
+.home {
+    margin-right: auto;
 }

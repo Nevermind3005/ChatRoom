@@ -3,7 +3,7 @@
     <mat-card-title class="signInTitle">Sign in</mat-card-title>
   </div>
   <mat-form-field class="authInput" appearance="outline">
-    <mat-label>Enter your email</mat-label>
+    <mat-label>Email</mat-label>
     <input
       matInput
       placeholder="example@example.com"
@@ -13,7 +13,7 @@
     <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
   </mat-form-field>
   <mat-form-field class="authInput" appearance="outline">
-    <mat-label>Enter your password</mat-label>
+    <mat-label>Password</mat-label>
     <input
       matInput
       [type]="hide ? 'password' : 'text'"
