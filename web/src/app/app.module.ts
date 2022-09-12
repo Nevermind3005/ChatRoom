@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 //Material stuff
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,7 +20,12 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, SignInComponent, SignUpComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    SignInComponent,
+    SignUpComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,6 +38,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     MatIconModule,
     MatButtonModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

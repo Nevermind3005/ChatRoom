@@ -22,7 +22,10 @@ router.post('/auth/signup', async (req, res) => {
             email: req.body.email,
         };
         db.run(insertUser, [user.username, user.password, user.email]);
-
+        res.json({
+            username: req.body.username,
+            email: req.body.email,
+        });
         res.status(201).send();
     } catch {
         res.status(500).send();
@@ -47,16 +50,16 @@ router.post('/auth/login', async (req, res) => {
                     email: user.email,
                 };
                 const accessToken = generateAccessToken(userToken);
-                const refreshToken = generateRefreshToken(userToken);
-                refreshTokens.push(refreshToken);
+                // const refreshToken = generateRefreshToken(userToken);
+                // refreshTokens.push(refreshToken);
                 res.cookie('atok', accessToken, {
                     httpOnly: true,
                     path: '/',
                 });
-                res.cookie('rtok', refreshToken, {
-                    httpOnly: true,
-                    path: '/auth/token',
-                });
+                // res.cookie('rtok', refreshToken, {
+                //     httpOnly: true,
+                //     path: '/auth/token',
+                // });
                 res.status(200);
                 res.send();
             } else {

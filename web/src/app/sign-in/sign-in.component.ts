@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { UserSignIn } from '../user';
+import { UserAuthService } from '../user-auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,7 +27,22 @@ export class SignInComponent implements OnInit {
     return '';
   }
 
-  constructor() {}
+  signIn() {
+    if (
+      this.email.getRawValue() == null ||
+      this.password.getRawValue() == null
+    ) {
+      return;
+    }
+
+    const userSignIn: UserSignIn = {
+      email: this.email.getRawValue()!,
+      password: this.password.getRawValue()!,
+    };
+    this.userAuthService.signIn(userSignIn).subscribe();
+  }
+
+  constructor(private userAuthService: UserAuthService) {}
 
   ngOnInit(): void {}
 }
