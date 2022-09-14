@@ -14,6 +14,7 @@ const corsOptions = {
 const app = express();
 
 app.use(express.json());
+app.use(express.static('static'));
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +33,7 @@ addUsersToDB({
     username: 'admin',
     email: 'admin@admin.com',
     password: 'password',
+    userImage: 'default_user.jpg',
 });
 
 app.get('/', authenticateToken, (req, res) => {
@@ -40,24 +42,10 @@ app.get('/', authenticateToken, (req, res) => {
     );
 });
 
-app.get('/:email', (req, res) => {
-    const { email } = req.params;
-    db.get(
-        'select username, email from users where email = ?;',
-        email,
-        async (err, row) => {
-            if (row == null) {
-                return res.sendStatus(404);
-            }
-            res.status(200).send(row);
-        }
-    );
-});
-
 app.get('/user/me', authenticateToken, (req, res) => {
     const userToken: any = req.user;
     db.get(
-        'select username, email from users where email = ?;',
+        'select username, email, userImage from users where email = ?;',
         userToken.email,
         async (err, row) => {
             if (row == null) {

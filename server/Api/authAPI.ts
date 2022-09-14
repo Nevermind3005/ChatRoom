@@ -20,6 +20,7 @@ router.post('/auth/signup', async (req, res) => {
             username: req.body.username,
             password: hashedPassword,
             email: req.body.email,
+            userImage: 'default_user.jpg',
         };
         db.run(insertUser, [user.username, user.password, user.email]);
         res.json({
@@ -42,6 +43,7 @@ router.post('/auth/login', async (req, res) => {
             username: row.username,
             password: row.password,
             email: row.email,
+            userImage: 'default_user.jpg',
         };
         try {
             if (await bcrypt.compare(req.body.password, user.password)) {

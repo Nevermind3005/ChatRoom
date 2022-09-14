@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { baseUrl } from './api';
-import { User, UserSignIn } from './user';
+import { UserSignUp, UserSignIn } from './user';
 import { catchError, Observable, of, tap } from 'rxjs';
 
 @Injectable({
@@ -23,11 +23,13 @@ export class UserAuthService {
     };
   }
 
-  signUp(user: User) {
-    return this.http.post<User>(this.signUpUrl, user, this.httpOptions).pipe(
-      tap((newUser: any) => console.log(newUser)),
-      catchError(this.handleError<User>('signUp'))
-    );
+  signUp(user: UserSignUp) {
+    return this.http
+      .post<UserSignUp>(this.signUpUrl, user, this.httpOptions)
+      .pipe(
+        tap((newUser: any) => console.log(newUser)),
+        catchError(this.handleError<UserSignUp>('signUp'))
+      );
   }
 
   signIn(userSignIn: UserSignIn) {

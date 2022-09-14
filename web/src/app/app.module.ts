@@ -18,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { MeComponent } from './me/me.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     NavbarComponent,
     SignInComponent,
     SignUpComponent,
+    MeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,20 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;  
+}
+.userImage {
+    max-width: 20vw;
+    border-radius: 50%;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.userName {
+    margin-top: 10px;
+    font-size: 25px;
+}

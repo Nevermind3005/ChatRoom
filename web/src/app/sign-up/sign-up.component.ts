@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserAuthService } from '../user-auth.service';
-import { User } from '../user';
+import { UserSignUp } from '../user';
 
 @Component({
   selector: 'app-sign-up',
@@ -44,7 +44,7 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    const user: User = {
+    const user: UserSignUp = {
       username: this.username.getRawValue()!,
       email: this.email.getRawValue()!,
       password: this.password.getRawValue()!,
