@@ -49,17 +49,15 @@ router.post('/auth/login', async (req, res) => {
                     username: user.username,
                     email: user.email,
                 };
-                const accessToken = generateAccessToken(userToken);
-                // const refreshToken = generateRefreshToken(userToken);
-                // refreshTokens.push(refreshToken);
-                res.cookie('atok', accessToken, {
+                //const accessToken = generateAccessToken(userToken);
+                const refreshToken = generateRefreshToken(userToken);
+                refreshTokens.push(refreshToken);
+                //res.json({ accessToken: accessToken });
+                res.cookie('rtok', refreshToken, {
                     httpOnly: true,
-                    path: '/',
+                    path: '/auth/token',
                 });
-                // res.cookie('rtok', refreshToken, {
-                //     httpOnly: true,
-                //     path: '/auth/token',
-                // });
+                res.redirect(307, '/auth/token');
                 res.status(200);
                 res.send();
             } else {
@@ -90,8 +88,11 @@ router.post('/auth/token', (req, res) => {
                 username: user.username,
                 email: user.email,
             });
-            res.cookie('atok', accessToken);
-            res.sendStatus(200);
+            res.cookie('atok', accessToken, {
+                httpOnly: true,
+                path: '/',
+            });
+            res.status(200).send();
         }
     );
 });
