@@ -22,7 +22,12 @@ router.post('/auth/signup', async (req, res) => {
             email: req.body.email,
             userImage: 'default_user.jpg',
         };
-        db.run(insertUser, [user.username, user.password, user.email]);
+        db.run(insertUser, [
+            user.username,
+            user.password,
+            user.email,
+            user.userImage,
+        ]);
         res.json({
             username: req.body.username,
             email: req.body.email,
@@ -59,7 +64,6 @@ router.post('/auth/login', async (req, res) => {
                     httpOnly: true,
                     path: '/auth/token',
                 });
-                res.redirect(307, '/auth/token');
                 res.status(200);
                 res.send();
             } else {

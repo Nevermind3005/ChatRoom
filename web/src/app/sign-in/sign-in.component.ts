@@ -1,7 +1,9 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserSignIn } from '../user';
 import { UserAuthService } from '../user-auth.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -39,7 +41,11 @@ export class SignInComponent implements OnInit {
       email: this.email.getRawValue()!,
       password: this.password.getRawValue()!,
     };
-    this.userAuthService.signIn(userSignIn).subscribe();
+    this.userAuthService.signIn(userSignIn).subscribe((resp) => {
+      if (resp.status === 200) {
+        this.userAuthService.getAcessToken().subscribe();
+      }
+    });
   }
 
   constructor(private userAuthService: UserAuthService) {}
