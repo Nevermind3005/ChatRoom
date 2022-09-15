@@ -3,13 +3,17 @@ import bcrypt from 'bcrypt';
 import User from '../Models/User';
 import UserToken from '../Models/UserToken';
 import jsonwebtoken from 'jsonwebtoken';
-import db, { insertUser } from '../db';
+import db, {
+    addUsersToDB,
+    addRefreshTokenToDB,
+    removeRefreshTokenFromDB,
+    selectCountToken,
+} from '../db';
 
 import {
     generateAccessToken,
     generateRefreshToken,
 } from '../Services/authService';
-let refreshTokens = new Array();
 
 const router: Router = express.Router();
 
@@ -22,12 +26,7 @@ router.post('/auth/signup', async (req, res) => {
             email: req.body.email,
             userImage: 'default_user.jpg',
         };
-        db.run(insertUser, [
-            user.username,
-            user.password,
-            user.email,
-            user.userImage,
-        ]);
+        addUsersToDB(user);
         res.json({
             username: req.body.username,
             email: req.body.email,
@@ -58,11 +57,11 @@ router.post('/auth/login', async (req, res) => {
                 };
                 //const accessToken = generateAccessToken(userToken);
                 const refreshToken = generateRefreshToken(userToken);
-                refreshTokens.push(refreshToken);
+                addRefreshTokenToDB(refreshToken);
                 //res.json({ accessToken: accessToken });
                 res.cookie('rtok', refreshToken, {
                     httpOnly: true,
-                    path: '/auth/token',
+                    path: '/auth/',
                 });
                 res.status(200);
                 res.send();
@@ -80,31 +79,34 @@ router.post('/auth/token', (req, res) => {
     if (refreshToken == null) {
         return res.sendStatus(401);
     }
-    if (!refreshTokens.includes(refreshToken)) {
-        return res.sendStatus(403);
-    }
-    jsonwebtoken.verify(
-        refreshToken,
-        process.env.REFRESH_TOKEN_SECRET!,
-        (err: any, user: any) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-            const accessToken = generateAccessToken({
-                username: user.username,
-                email: user.email,
-            });
-            res.cookie('atok', accessToken, {
-                httpOnly: true,
-                path: '/',
-            });
-            res.status(200).send();
+    db.get(selectCountToken, [refreshToken], (_, row) => {
+        console.log(row.count);
+        if (row.count !== 1) {
+            return res.sendStatus(403);
         }
-    );
+        jsonwebtoken.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET!,
+            (err: any, user: any) => {
+                if (err) {
+                    return res.sendStatus(403);
+                }
+                const accessToken = generateAccessToken({
+                    username: user.username,
+                    email: user.email,
+                });
+                res.cookie('atok', accessToken, {
+                    httpOnly: true,
+                    path: '/',
+                });
+                res.status(200).send();
+            }
+        );
+    });
 });
 
 router.delete('/auth/logout', (req, res) => {
-    refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+    removeRefreshTokenFromDB(req.cookies.rtok);
     res.sendStatus(204);
 });
 
