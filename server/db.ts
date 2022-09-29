@@ -24,7 +24,7 @@ function initDBTable() {
 }
 
 export async function addUsersToDB(user: User) {
-    user.password = await bcrypt.hash(user.password, 10);
+    user.password = await bcrypt.hash(user.password, 10); //Should be in separate function
     db.run(insertUser, [
         user.username,
         user.password,

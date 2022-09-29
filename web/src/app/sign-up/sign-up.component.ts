@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserAuthService } from '../user-auth.service';
 import { UserSignUp } from '../user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -50,10 +51,15 @@ export class SignUpComponent implements OnInit {
       password: this.password.getRawValue()!,
     };
 
-    this.userAuthService.signUp(user).subscribe();
+    this.userAuthService.signUp(user).subscribe(() => {
+      this.router.navigate(['./sign-in']);
+    });
   }
 
-  constructor(private userAuthService: UserAuthService) {}
+  constructor(
+    private userAuthService: UserAuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 }

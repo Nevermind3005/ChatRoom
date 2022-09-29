@@ -19,12 +19,12 @@ const router: Router = express.Router();
 
 router.post('/auth/signup', async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user: User = {
             username: req.body.username,
-            password: hashedPassword,
+            password: req.body.password,
             email: req.body.email,
-            userImage: 'default_user.jpg',
+            //Icon source: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
+            userImage: 'user.png',
         };
         addUsersToDB(user);
         res.json({
@@ -47,7 +47,7 @@ router.post('/auth/login', async (req, res) => {
             username: row.username,
             password: row.password,
             email: row.email,
-            userImage: 'default_user.jpg',
+            userImage: row.userImage,
         };
         try {
             if (await bcrypt.compare(req.body.password, user.password)) {

@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { UserSignIn } from '../user';
 import { UserAuthService } from '../user-auth.service';
 import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -43,12 +44,17 @@ export class SignInComponent implements OnInit {
     };
     this.userAuthService.signIn(userSignIn).subscribe((resp) => {
       if (resp.status === 200) {
-        this.userAuthService.getAcessToken().subscribe();
+        this.userAuthService.getAcessToken().subscribe(() => {
+          this.router.navigate(['./user/me']);
+        });
       }
     });
   }
 
-  constructor(private userAuthService: UserAuthService) {}
+  constructor(
+    private userAuthService: UserAuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 }

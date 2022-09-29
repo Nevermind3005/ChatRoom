@@ -49,7 +49,8 @@ addUsersToDB({
     username: 'admin',
     email: 'admin@admin.com',
     password: 'password',
-    userImage: 'default_user.jpg',
+    //Icon source: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
+    userImage: 'user.png',
 });
 
 app.get('/', authenticateToken, (req, res) => {
