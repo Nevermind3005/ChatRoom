@@ -95,10 +95,11 @@ router.post('/auth/token', (req, res) => {
                     username: user.username,
                     email: user.email,
                 });
-                res.cookie('atok', accessToken, {
-                    httpOnly: true,
-                    path: '/',
-                });
+                // res.cookie('atok', accessToken, {
+                //     httpOnly: true,
+                //     path: '/',
+                // });
+                res.json({ accessToken: accessToken });
                 res.status(200).send();
             }
         );

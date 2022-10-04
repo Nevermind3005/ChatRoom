@@ -8,22 +8,26 @@ export function authenticateToken(
     res: express.Response,
     next: Function
 ) {
-    const token = req.cookies.atok;
-
-    if (token == null) {
-        return res.sendStatus(401);
-    }
-    jsonwebtoken.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET!,
-        (err: VerifyErrors | null, user: any) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-            req.user = user;
-            next();
+    //const token = req.cookies.atok;
+    const bearerHeader = req.headers['authorization'];
+    if (bearerHeader) {
+        const bearerToken = bearerHeader.split(' ');
+        const token = bearerToken[1];
+        if (token == null) {
+            return res.sendStatus(401);
         }
-    );
+        jsonwebtoken.verify(
+            token,
+            process.env.ACCESS_TOKEN_SECRET!,
+            (err: VerifyErrors | null, user: any) => {
+                if (err) {
+                    return res.sendStatus(403);
+                }
+                req.user = user;
+                next();
+            }
+        );
+    }
 }
 
 export function generateAccessToken(userToken: UserToken) {
