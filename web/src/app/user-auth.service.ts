@@ -46,6 +46,7 @@ export class UserAuthService {
       .post(this.tokenUrl, '', {
         ...this.httpOptions,
         withCredentials: true,
+        observe: 'response',
       })
       .pipe(catchError(this.handleError('getAcessToken')));
   }

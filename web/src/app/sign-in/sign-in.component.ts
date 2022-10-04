@@ -5,6 +5,7 @@ import { UserSignIn } from '../user';
 import { UserAuthService } from '../user-auth.service';
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { AuthInterceptor } from '../interceptors/auth.interceptor';
 
 @Component({
   selector: 'app-sign-in',
@@ -42,9 +43,11 @@ export class SignInComponent implements OnInit {
       email: this.email.getRawValue()!,
       password: this.password.getRawValue()!,
     };
-    this.userAuthService.signIn(userSignIn).subscribe((resp) => {
-      if (resp.status === 200) {
-        this.userAuthService.getAcessToken().subscribe(() => {
+    this.userAuthService.signIn(userSignIn).subscribe((res) => {
+      if (res.status === 200) {
+        this.userAuthService.getAcessToken().subscribe((res: any) => {
+          AuthInterceptor.accessToken = res.body.accessToken;
+          console.log(res);
           this.router.navigate(['./user/me']);
         });
       }
