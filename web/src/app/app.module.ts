@@ -20,6 +20,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { MeComponent } from './me/me.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     SignInComponent,
     SignUpComponent,
     MeComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

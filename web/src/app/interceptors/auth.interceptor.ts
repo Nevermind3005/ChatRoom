@@ -11,7 +11,6 @@ import { UserAuthService } from '../user-auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  static accessToken = '';
   refresh = false;
 
   constructor(private userAuthService: UserAuthService) {}
@@ -22,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const req = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${AuthInterceptor.accessToken}`,
+        Authorization: `Bearer ${this.userAuthService.accessToken}`,
       },
     });
     return next.handle(req).pipe(
@@ -31,16 +30,18 @@ export class AuthInterceptor implements HttpInterceptor {
           this.refresh = true;
           return this.userAuthService.getAcessToken().pipe(
             switchMap((res: any) => {
-              AuthInterceptor.accessToken = res.body.accessToken;
+              this.userAuthService.accessToken = res.body.accessToken;
               return next.handle(
                 request.clone({
                   setHeaders: {
-                    Authorization: `Bearer ${AuthInterceptor.accessToken}`,
+                    Authorization: `Bearer ${this.userAuthService.accessToken}`,
                   },
                 })
               );
             })
           );
+        } else {
+          this.userAuthService.accessToken = '';
         }
         this.refresh = false;
         return throwError(() => err);

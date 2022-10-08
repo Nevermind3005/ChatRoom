@@ -12,6 +12,7 @@ export class UserAuthService {
   private signUpUrl = baseUrl + 'auth/signup';
   private signInUrl = baseUrl + 'auth/login';
   private tokenUrl = baseUrl + 'auth/token';
+  public accessToken = '';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -31,6 +32,10 @@ export class UserAuthService {
         tap((newUser: any) => console.log(newUser)),
         catchError(this.handleError<UserSignUp>('signUp'))
       );
+  }
+
+  isLoggedIn(): boolean {
+    return this.accessToken !== '';
   }
 
   signIn(userSignIn: UserSignIn) {

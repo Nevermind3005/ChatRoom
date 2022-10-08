@@ -14,6 +14,7 @@ import {
     generateAccessToken,
     generateRefreshToken,
 } from '../Services/authService';
+import { debug } from 'console';
 
 const router: Router = express.Router();
 
@@ -38,6 +39,7 @@ router.post('/auth/signup', async (req, res) => {
 });
 
 router.post('/auth/login', async (req, res) => {
+    console.log(process.env);
     const email = req.body.email;
     db.get('select * from users where email = ?;', email, async (_, row) => {
         if (row == null) {
@@ -68,7 +70,9 @@ router.post('/auth/login', async (req, res) => {
             } else {
                 res.send('Now allowed');
             }
-        } catch {
+        } catch (err) {
+            console.log(err);
+
             res.status(500).send();
         }
     });
