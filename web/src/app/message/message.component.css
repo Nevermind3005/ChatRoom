@@ -1,0 +1,24 @@
+.message {
+    max-width: 50%;
+}
+
+.avatar-img {
+    border-radius: 15%;
+    margin-right: 2%;
+    max-width: 10%;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+}
+
+.message-input {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+}
+
+.message-inputbox {
+    width: 100%;
+}

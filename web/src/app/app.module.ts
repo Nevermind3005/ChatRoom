@@ -21,6 +21,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { MeComponent } from './me/me.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { HomeComponent } from './home/home.component';
+import { ChatComponent } from './chat/chat.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { HomeComponent } from './home/home.component';
     SignUpComponent,
     MeComponent,
     HomeComponent,
+    ChatComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
