@@ -48,7 +48,7 @@ export class SignInComponent implements OnInit {
         this.userAuthService.getAcessToken().subscribe((res: any) => {
           this.userAuthService.accessToken = res.body.accessToken;
           console.log(res);
-          this.router.navigate(['./user/me']);
+          this.router.navigate(['./']);
         });
       }
     });

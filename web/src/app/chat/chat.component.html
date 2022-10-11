@@ -1,1 +1,24 @@
-<app-message></app-message>
+<div class="chat-container">
+  <div class="message-container">
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+    <app-message class="message"></app-message>
+  </div>
+  <div class="box">
+    <div class="message-input flex-container">
+      <mat-form-field appearance="outline" class="message-inputbox">
+        <mat-label>Message</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="send-button">
+        Send
+      </button>
+    </div>
+  </div>
+</div>
