@@ -1,22 +1,21 @@
 <div class="chat-container">
   <div class="message-container">
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
-    <app-message class="message"></app-message>
+    <div *ngFor="let message of messageList">
+      <app-message class="message" [message]="message"></app-message>
+    </div>
   </div>
   <div class="box">
     <div class="message-input flex-container">
       <mat-form-field appearance="outline" class="message-inputbox">
         <mat-label>Message</mat-label>
-        <input matInput />
+        <input matInput required [formControl]="message" />
       </mat-form-field>
-      <button mat-raised-button color="primary" class="send-button">
+      <button
+        mat-raised-button
+        color="primary"
+        class="send-button"
+        (click)="sendMessage()"
+      >
         Send
       </button>
     </div>
