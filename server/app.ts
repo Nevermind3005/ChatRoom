@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { debug } from 'console';
 
 const corsOptions = {
     origin: 'http://localhost:4200',
@@ -37,6 +38,7 @@ io.on('connection', (socket) => {
     console.log(`Socket ${socket.id} has connected`);
 
     socket.on('message', (msg) => {
+        console.log(msg);
         io.emit('message', msg);
     });
 

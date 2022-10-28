@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { catchError, map, tap } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { ChatServiceService } from '../chat-service.service';
 
 @Component({
@@ -10,17 +10,23 @@ import { ChatServiceService } from '../chat-service.service';
 })
 export class ChatComponent implements OnInit {
   message = new FormControl('', [Validators.required]);
-
+  sub: Subscription | undefined;
   messageList: string[] = [];
 
   constructor(private chatService: ChatServiceService) {}
 
   ngOnInit(): void {
-    this.chatService.getNewMessage().subscribe((message: string) => {
+    this.chatService.connect();
+    this.sub = this.chatService.getNewMessage().subscribe((message: string) => {
       if (message != '') {
         this.messageList.push(message);
       }
     });
+    this.messageList = [];
+  }
+
+  ngOnDestroy() {
+    this.chatService.disconnect();
   }
 
   sendMessage() {

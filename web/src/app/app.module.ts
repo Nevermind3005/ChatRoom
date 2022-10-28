@@ -23,6 +23,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { HomeComponent } from './home/home.component';
 import { ChatComponent } from './chat/chat.component';
 import { MessageComponent } from './message/message.component';
+import { ChatServiceService } from './chat-service.service';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { MessageComponent } from './message/message.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ChatServiceService,
   ],
   bootstrap: [AppComponent],
 })
