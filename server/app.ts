@@ -6,7 +6,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { debug } from 'console';
+import jsonwebtoken, { VerifyErrors } from 'jsonwebtoken';
+import env from './Config/env';
 
 const corsOptions = {
     origin: 'http://localhost:4200',
@@ -39,7 +40,24 @@ io.on('connection', (socket) => {
 
     socket.on('message', (msg) => {
         console.log(msg);
-        io.emit('message', msg);
+        if (msg.token === '') {
+            io.emit('message', { username: 'Anon', message: msg.message });
+            return;
+        }
+        jsonwebtoken.verify(
+            msg.token,
+            env.accessTokenSecret,
+            (err: VerifyErrors | null, user: any) => {
+                if (err) {
+                    io.emit('message', { auth: 'ERROR' });
+                    return;
+                }
+                io.emit('message', {
+                    username: user.username,
+                    message: msg.message,
+                });
+            }
+        );
     });
 
     socket.on('disconnect', () => {

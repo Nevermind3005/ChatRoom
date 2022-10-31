@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ChatServiceService } from '../chat-service.service';
+import { ChatServiceService } from '../chat.service';
+import { UserAuthService } from '../user-auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -11,18 +12,20 @@ import { ChatServiceService } from '../chat-service.service';
 export class ChatComponent implements OnInit {
   message = new FormControl('', [Validators.required]);
   sub: Subscription | undefined;
-  messageList: string[] = [];
+  messageList: { message: string; username: string }[] = [];
 
-  constructor(private chatService: ChatServiceService) {}
+  constructor(
+    private chatService: ChatServiceService,
+    private userAuthService: UserAuthService
+  ) {}
 
   ngOnInit(): void {
     this.chatService.connect();
-    this.sub = this.chatService.getNewMessage().subscribe((message: string) => {
+    this.sub = this.chatService.getNewMessage().subscribe((message: any) => {
       if (message != '') {
         this.messageList.push(message);
       }
     });
-    this.messageList = [];
   }
 
   ngOnDestroy() {
@@ -30,7 +33,10 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage(this.message.getRawValue()!);
+    this.chatService.sendMessage({
+      message: this.message.getRawValue()!,
+      token: this.userAuthService.accessToken,
+    });
     this.message.setValue('');
   }
 }

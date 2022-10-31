@@ -18,7 +18,7 @@ export function authenticateToken(
         }
         jsonwebtoken.verify(
             token,
-            process.env.ACCESS_TOKEN_SECRET!,
+            env.accessTokenSecret,
             (err: VerifyErrors | null, user: any) => {
                 if (err) {
                     return res.sendStatus(403);

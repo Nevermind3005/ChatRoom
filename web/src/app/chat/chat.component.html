@@ -1,7 +1,11 @@
 <div class="chat-container">
   <div class="message-container">
     <div *ngFor="let message of messageList">
-      <app-message class="message" [message]="message"></app-message>
+      <app-message
+        class="message"
+        [message]="message.message"
+        [username]="message.username"
+      ></app-message>
     </div>
   </div>
   <div class="box">

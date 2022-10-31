@@ -6,15 +6,15 @@ import { io } from 'socket.io-client';
   providedIn: 'root',
 })
 export class ChatServiceService {
-  public message: BehaviorSubject<string>;
-  a: Observable<string> | undefined;
+  public message: BehaviorSubject<any>;
+  a: Observable<any> | undefined;
   constructor() {
     this.message = new BehaviorSubject('');
   }
 
   socket = io('http://localhost:3000');
 
-  public sendMessage(message: string) {
+  public sendMessage(message: any) {
     this.socket.emit('message', message);
   }
 
